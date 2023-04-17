@@ -89,6 +89,9 @@ def execute_python_file(file: str):
         return f"Error: {str(e)}"
 
 
+# flag to execute the CD command just once
+cd_executed = False
+
 def execute_shell(command_line: str) -> str:
     """Execute a shell command and return the output
 
@@ -98,20 +101,16 @@ def execute_shell(command_line: str) -> str:
     Returns:
         str: The output of the command
     """
-    current_dir = os.getcwd()
 
-    if WORKING_DIRECTORY not in current_dir:  # Change dir into workspace if necessary
-        work_dir = os.path.join(os.getcwd(), WORKING_DIRECTORY)
-        os.chdir(work_dir)
+    # CD into the workspace folder
+    if not cd_executed:
+        os.chdir(WORKING_DIRECTORY)
+        cd_executed = True
 
     print(f"Executing command '{command_line}' in working directory '{os.getcwd()}'")
 
     result = subprocess.run(command_line, capture_output=True, shell=True)
     output = f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
-
-    # Change back to whatever the prior working dir was
-
-    os.chdir(current_dir)
 
     return output
 

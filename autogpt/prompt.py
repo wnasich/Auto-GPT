@@ -35,6 +35,10 @@ def get_prompt() -> str:
         'Exclusively use the commands listed in double quotes e.g. "command name"'
     )
 
+    prompt_generator.add_constraint(
+         'You are able to execute commands over a Ubuntu 20.04 computer using "execute_shell". Silence output of commands when it is not needed. You do not have access to run interactive commands (ie: nano, vim, etc.), so you must provide all inputs that each command expect. Each time you need to change directory, do it using relative paths. You must remember the current path or use command pwd to know it.'
+    )
+
     # Define the command list
     commands = [
         ("Google Search", "google", {"input": "<search>"}),
